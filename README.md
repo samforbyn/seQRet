@@ -13,3 +13,14 @@
 ## **Additional / Future Features:** ##
 - ## Users can favorite posts ##
 - ## Search functionality ##
+
+## **Database:** ##
+- ## Users Table ##
+- ## Posts Table ##
+- ## Favorites Table ##
+
+## **Relationships:** ##
+- ## Users can have many posts ***One to many*** ##
+- ## Users can have many favorites. ***One to many*** ##
+- ## A single post can have one user/author. ***One to one*** ##
+

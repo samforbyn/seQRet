@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, request
+from models import create_post
 
 app = Flask(__name__)
 
