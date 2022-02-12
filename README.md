@@ -13,6 +13,8 @@
 ## **Additional / Future Features:** ##
 - ## Users can favorite posts ##
 - ## Search functionality ##
+- ## Add Geolocation to post ##
+- ## Add share functionality ##
 
 ## **Database:** ##
 - ## Users Table ##
