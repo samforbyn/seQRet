@@ -1,6 +1,10 @@
 from dotenv import find_dotenv, load_dotenv
 from flask import Flask
 import os
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+
 
 load_dotenv(find_dotenv())
 
