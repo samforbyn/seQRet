@@ -15,8 +15,10 @@ def logout():
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
     if request.method == "POST":
-        email = request.form.get('email')
         firstName = request.form.get('firstName')
+        lastName = request.form.get('lastName')
+        username = request.form.get('username')
+        email = request.form.get('email')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
@@ -24,6 +26,10 @@ def sign_up():
             flash('Your email needs to contain at least 3 characters, please try again.', category='error')
         elif len(firstName) < 1:
             flash('Your first name needs to contain more than 1 character, please try again.', category='error')
+        elif len(lastName) < 1:
+            flash('Your last name needs to contain more than 1 character, please try again.', category='error')
+        elif len(username) < 4:
+            flash('Your username needs to contain more than 3 character, please try again.', category='error')
         elif password1 != password2:
             flash('Passwords do not match, please try again.', category='error')
         elif len(password1) < 7:
