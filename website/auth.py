@@ -1,32 +1,53 @@
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, redirect, render_template, request, flash, redirect, url_for
+from .models import Users
+from werkzeug.security import generate_password_hash, check_password_hash
+from . import db 
 
 auth = Blueprint('auth', __name__)
 
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    data = request.form
-    print(data)
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        user = Users.query.filter_by(email=email).first()
+
+        if user:
+            if check_password_hash(user.password, password):
+                flash("Logged in successfully!", category='success')
+            else:
+                flash('Incorrect password, try again.', category='error')
+        else:
+            flash('No account with that email has been created', category='error')
     return render_template('login.html')
+
+
 @auth.route('/logout')
 def logout():
     return "<p>Logout</p>"
 
+
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
     if request.method == "POST":
-        firstName = request.form.get('firstName')
-        lastName = request.form.get('lastName')
+        first_name = request.form.get('firstName')
+        last_name = request.form.get('lastName')
         username = request.form.get('username')
         email = request.form.get('email')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
+        user = Users.query.filter_by(email=email).first()
+
+        if user:
+            flash('An account with this email already exists, try again.', category='error')
         if len(email) < 3:
             flash('Your email needs to contain at least 3 characters, please try again.', category='error')
-        elif len(firstName) < 1:
+        elif len(first_name) < 1:
             flash('Your first name needs to contain more than 1 character, please try again.', category='error')
-        elif len(lastName) < 1:
+        elif len(last_name) < 1:
             flash('Your last name needs to contain more than 1 character, please try again.', category='error')
         elif len(username) < 4:
             flash('Your username needs to contain more than 3 character, please try again.', category='error')
@@ -34,7 +55,12 @@ def sign_up():
             flash('Passwords do not match, please try again.', category='error')
         elif len(password1) < 7:
             flash('Your password needs to contain at least 7 characters, try again.', category='error')
-
         else:
-            flash('Account successfully created, you can log in now!')
+            new_user = Users(first_name=first_name, last_name=last_name, username=username, email=email, password=generate_password_hash(password=password1, method="sha256"))
+            print(new_user)
+            db.session.add(new_user)
+            db.session.commit()
+            flash('Account created! You can log in now.', category='success')
+            return redirect(url_for('views.home'))
+
     return render_template('sign_up.html')
