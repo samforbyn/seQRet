@@ -21,6 +21,8 @@ class Users(db.Model, UserMixin):
         self.username = username
         self.password = generate_password_hash(password=password, method="sha256")
 
+    def get_id(self):
+        return self.user_id
 
 class Posts(db.Model):
     
