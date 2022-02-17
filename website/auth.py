@@ -12,14 +12,17 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
 
+        print('---------------------hitting1')
         user = Users.query.filter_by(email=email).first()
-
+        print(user)
         if user:
+            print('---------------------hitting2')
             if check_password_hash(user.password, password):
                 flash("Logged in successfully!", category='success')
             else:
                 flash('Incorrect password, try again.', category='error')
         else:
+            print('---------------------hitting3')
             flash('No account with that email has been created', category='error')
     return render_template('login.html')
 
@@ -38,7 +41,6 @@ def sign_up():
         email = request.form.get('email')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
-
         user = Users.query.filter_by(email=email).first()
 
         if user:
@@ -56,7 +58,7 @@ def sign_up():
         elif len(password1) < 7:
             flash('Your password needs to contain at least 7 characters, try again.', category='error')
         else:
-            new_user = Users(first_name=first_name, last_name=last_name, username=username, email=email, password=generate_password_hash(password=password1, method="sha256"))
+            new_user = Users(first_name=first_name, last_name=last_name, username=username, email=email, password=password1)
             print(new_user)
             db.session.add(new_user)
             db.session.commit()

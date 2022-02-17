@@ -12,14 +12,14 @@ class Users(db.Model, UserMixin):
     last_name = db.Column(db.String(175), nullable=False)
     email = db.Column(db.String(175), unique=True, nullable=False)
     username = db.Column(db.String(175), unique=True, nullable=False)
-    password = db.Column(db.String(175))
+    password = db.Column(db.String(175), nullable=False)
 
     def __init__(self, first_name, last_name, email, username, password):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
         self.username = username
-        self.password_hash = generate_password_hash(password=password, method="sha256")
+        self.password = generate_password_hash(password=password, method="sha256")
 
 
 class Posts(db.Model):
