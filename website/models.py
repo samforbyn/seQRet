@@ -26,7 +26,6 @@ class Users(db.Model, UserMixin):
 
 class Posts(db.Model):
     
-
     post_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     post_title = db.Column(db.String(175))
     post_content = db.Column(db.String(10000))

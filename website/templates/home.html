@@ -3,5 +3,18 @@
 {% block title%}Home{% endblock %}
 
 {% block body%}
-<h1>welcome to seQRet homepage</h1>
+<div align="left">
+    <h1>welcome to seQRet</h1>
+</div>
+<form method="POST">
+    <div align="center">
+        <input type="text" name="post_title" id="post_title" placeholder="Enter a title:">
+    </div>
+    <div align="center">
+        <textarea name="post_content" id="post_content" cols="90" rows="10"></textarea>
+    </div>
+    <div align="center">
+        <button type="submit" class="btn btn-primary">Share</button>
+    </div>
+</form>
 {% endblock %}

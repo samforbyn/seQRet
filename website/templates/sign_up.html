@@ -4,8 +4,10 @@
 
 {% block body%}
 
+
 <form method="POST">
     <h3 align="center">Sign Up</h3>
+    <h5 align="center">Already have an account? Sign in <a href={{ url_for('auth.login') }}>here</a></h5>
     <div class="form-group">
         <label for="firstName">First Name:</label>
         <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter first name">
@@ -33,5 +35,7 @@
     <br>
     <button class="btn btn-primary" type="submit">Submit</button>
 </form>
+
+
 
 {% endblock %}

@@ -13,11 +13,9 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
 
-        print('---------------------hitting1')
         user = Users.query.filter_by(email=email).first()
-        print(user)
+        
         if user:
-            print('---------------------hitting2')
             if check_password_hash(user.password, password):
                 flash("Logged in successfully!", category='success')
                 login_user(user, remember=True)
@@ -25,9 +23,8 @@ def login():
             else:
                 flash('Incorrect password, try again.', category='error')
         else:
-            print('---------------------hitting3')
             flash('No account with that email has been created', category='error')
-    return render_template('login.html')
+    return render_template('login.html', user=current_user)
 
 
 @auth.route('/logout')
@@ -70,4 +67,4 @@ def sign_up():
             flash('Account created! You can log in now.', category='success')
             return redirect(url_for('views.home'))
 
-    return render_template('sign_up.html')
+    return render_template('sign_up.html', user=current_user)

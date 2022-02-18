@@ -17,10 +17,13 @@
         </button>
         <div class ="collapse navbar-collapse" id="navbar">
             <div class ="navbar-nav">
+                {% if user.is_authenticated %}
+                <a id = "home" href="/home" class="nav-item nav-link">Home</a>
+                <a id = "logout" href="/logout" class="nav-item nav-link">Logout</a>
+                {% else %}
                 <a id = "login" href="/login" class="nav-item nav-link">Login</a>
                 <a id = "signUp" href="/sign-up" class="nav-item nav-link">Sign Up</a>
-                <a id = "logout" href="/logout" class="nav-item nav-link">Logout</a>
-                <a id = "home" href="/home" class="nav-item nav-link">Home</a>
+                {% endif %}
             </div>
         </div>
     </nav>
