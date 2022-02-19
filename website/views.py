@@ -1,5 +1,6 @@
 from flask import Blueprint, flash, render_template, request
 from flask_login import login_required, current_user
+import random
 from .models import Posts
 from . import db
 
@@ -29,5 +30,12 @@ def home():
 @login_required
 def feed():
     all_posts = db.session.query(Posts).all()
-    print(all_posts)
-    return render_template('feed.html', user=current_user, all_posts=all_posts)
+    def shuffle_filter(posts):
+        try:
+            result = list(posts)
+            random.shuffle(result)
+            return result
+        except:
+            return posts
+    shuffled = shuffle_filter(all_posts)
+    return render_template('feed.html', user=current_user, all_posts=shuffled)

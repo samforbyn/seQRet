@@ -1,3 +1,10 @@
 body{
-    background-color: red;
+    background-image: linear-gradient(to right,#d9eff8, #b9ebff);
+}
+
+.postBG{
+    background-image: linear-gradient(to left,#e2e2e2, #c5c5c5);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    width: 60vw;
 }
