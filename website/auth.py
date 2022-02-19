@@ -14,7 +14,7 @@ def login():
         password = request.form.get('password')
 
         user = Users.query.filter_by(email=email).first()
-        
+
         if user:
             if check_password_hash(user.password, password):
                 flash("Logged in successfully!", category='success')
@@ -68,3 +68,4 @@ def sign_up():
             return redirect(url_for('views.home'))
 
     return render_template('sign_up.html', user=current_user)
+

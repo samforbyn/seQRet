@@ -1,0 +1,25 @@
+{% extends 'base.html'%}
+
+{% block style%}
+<link rel="stylesheet" href="static/feed_css.css">
+{% endblock %}
+
+
+{% block title%}Feed{% endblock %}
+
+
+{% block body%}
+
+    {% for post in all_posts %}
+    <div class="social-body">
+        <h3>{{ post.post_title }}</h3>
+        <h2>{{ post.post_content}}</h2>
+    </div>
+    <div class="btn-group">
+        <button class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> Like this!</button>
+        <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> Comment</button>
+        <button class="btn btn-white btn-xs"><i class="fa fa-share"></i> Share</button>
+    </div>
+    {% endfor %}
+
+{% endblock %}

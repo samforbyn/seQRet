@@ -24,3 +24,10 @@ def home():
             print(user_text, current_user.user_id)
             flash("Thanks for sharing!")
     return render_template('home.html', user=current_user)
+
+@views.route('/feed')
+@login_required
+def feed():
+    all_posts = db.session.query(Posts).all()
+    print(all_posts)
+    return render_template('feed.html', user=current_user, all_posts=all_posts)
