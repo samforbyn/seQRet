@@ -1,5 +1,8 @@
+from sqlite3 import IntegrityError
+from unicodedata import category
 from flask import Blueprint, redirect, render_template, request, flash, redirect, url_for
 from flask_login import login_user, login_required, logout_user, current_user
+from sqlalchemy.exc import IntegrityError
 from .models import Users
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db 
@@ -63,7 +66,12 @@ def sign_up():
             new_user = Users(first_name=first_name, last_name=last_name, username=username, email=email, password=password1)
             print(new_user)
             db.session.add(new_user)
-            db.session.commit()
+            try:
+                db.session.commit()
+            except IntegrityError as e:
+                db.session.rollback()
+                flash('Username already taken, try again.', category='error')
+                return redirect(url_for('auth.sign_up', error=e))
             flash('Account created! You can log in now.', category='success')
             return redirect(url_for('views.home'))
 

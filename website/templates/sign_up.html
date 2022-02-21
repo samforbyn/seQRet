@@ -4,6 +4,9 @@
 
 {% block body%}
 
+{% if error %}
+    <h1>Username already exists</h1>
+{% endif %}
 
 <form method="POST">
     <h3 align="center">Sign Up</h3>
