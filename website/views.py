@@ -1,7 +1,8 @@
-from flask import Blueprint, flash, render_template, request
+from sqlite3 import IntegrityError
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_required, current_user
 import random
-from .models import Posts
+from .models import Posts, Favorites
 from . import db
 
 
@@ -26,9 +27,18 @@ def home():
             flash("Thanks for sharing!")
     return render_template('home.html', user=current_user)
 
-@views.route('/feed')
+@views.route('/feed', methods=['GET', 'POST'])
 @login_required
 def feed():
+    if request.method == 'POST':
+        postNum = request.form.get('favbtn')
+        newFav = Favorites(user_id=current_user.user_id, post_id=postNum)
+        exists = Favorites.query.filter_by(user_id=current_user.user_id, post_id=postNum).first()
+        if exists:
+            flash('This post is already a favorite!', category='error')
+        else:
+            db.session.add(newFav)
+            db.session.commit()
     all_posts = db.session.query(Posts).all()
     def shuffle_filter(posts):
         try:

@@ -72,13 +72,13 @@ def sign_up():
             except IntegrityError as e:
                 db.session.rollback()
                 flash('Username already taken, try again.', category='error')
-                return redirect(url_for('auth.sign_up', error=e))
+                return redirect(url_for('auth.sign_up'))
             flash('Account created! You can log in now.', category='success')
             return redirect(url_for('views.home'))
 
     return render_template('sign_up.html', user=current_user)
 
-@auth.route('/profile')
+@auth.route('/profile', methods=['GET', 'POST'])
 def profile():
     user = Users.query.filter_by(username=current_user.username).first()
     users_posts = Posts.query.filter_by(post_author=user.user_id)
