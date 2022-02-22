@@ -1,9 +1,10 @@
 from sqlite3 import IntegrityError
+from threading import currentThread
 from unicodedata import category
 from flask import Blueprint, redirect, render_template, request, flash, redirect, url_for
 from flask_login import login_user, login_required, logout_user, current_user
 from sqlalchemy.exc import IntegrityError
-from .models import Users
+from .models import Users, Posts
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db 
 
@@ -79,4 +80,6 @@ def sign_up():
 
 @auth.route('/profile')
 def profile():
-    return render_template('profile.html', user=current_user)
+    user = Users.query.filter_by(username=current_user.username).first()
+    users_posts = Posts.query.filter_by(post_author=user.user_id)
+    return render_template('profile.html', user= current_user, posts=users_posts)
