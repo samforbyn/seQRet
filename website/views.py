@@ -1,5 +1,6 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_required, current_user
+from flask_qrcode import QRcode
 import random
 from .models import Posts, Favorites
 from . import db
@@ -56,7 +57,19 @@ def feed():
             return posts
     return render_template('feed.html', user=current_user, all_posts=shuffle_posts(all_posts))
 
-@views.route('/posts')
+@views.route('/posts', methods=['GET', 'POST'])
+@login_required
 def single_post():
-    post = request.args.get('id')
-    return render_template('single_post.html', user=current_user, id=post)
+    if request.method == 'POST':
+        postNum = request.form.get('favbtn')
+        newFav = Favorites(user_id=current_user.user_id, post_id=postNum)
+        exists = Favorites.query.filter_by(user_id=current_user.user_id, post_id=postNum).first()
+        if exists:
+            flash('This post is already a favorite!', category='error')
+        else:
+            db.session.add(newFav)
+            db.session.commit()
+            flash('Added to favorites!', category='success')
+    postNumber = request.args.get('id')
+    this_post = Posts.query.filter_by(post_id=postNumber).first()
+    return render_template('single_post.html', user=current_user, post=this_post)

@@ -3,7 +3,7 @@ from flask import Flask
 import os
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-
+from flask_qrcode import QRcode
 
 db = SQLAlchemy()
 
@@ -30,6 +30,8 @@ def create_app():
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
+
+    QRcode(app)
 
     from .models import Users, Posts, Favorites
 

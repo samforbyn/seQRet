@@ -2,12 +2,29 @@
 
 {% block style%}
 {%endblock%}
-
+<link rel="stylesheet" href="static/post_css.css">
 {% block title %}
     Post
 {%endblock%}
 
 {% block body %}
-    <h1>testing</h1>
-    {{ id }}
+<div align="center">
+    <div class="card shadow p-3 mb-5 bg-white rounded postBG">
+        <div class="card-body text-center" align="left">
+            <h4 class="card-title">{{ post.post_title }}</h4>
+            <h5 class="card-subtitle mb-2 text-muted">{{ post.post_date }}</h5>
+            <p class="card-text">{{ post.post_content }}</p>
+            <div class="d-flex justify-content-around">
+                <form method="post">
+                    <button name="favbtn" value = {{ post.post_id }} class="btn btn-white btn-xs"><i class="fa-solid fa-heart"></i></button>
+                </form>
+                    <button name="showQR" class="btn btn-white btn-xs" data-toggle="collapse" data-target="#thisqrcode" aria-expanded="false" aria-controls="thisqrcode" value={{ post.post_id }}>Show QR <i class="fa-solid fa-angles-down"></i></button>
+                </div>
+                <div class="collapse" id="thisqrcode">
+                    <div class="pushfix">
+                        <img src="{{ qrcode('testing', box_size=6, error_correction='H', back_color='#383F51', fill_color='#ccc', icon_img='../static/logo_white_bg.png') }}" alt="qrcode">
+                    </div>
+            </div>
+    </div>
+</div>
 {% endblock %}
