@@ -34,6 +34,9 @@ def home():
 @login_required
 def feed():
     if request.method == 'POST':
+        see_more = request.form.get('seeMore')
+        if see_more:
+            return redirect(url_for('views.single_post', user=current_user, id = see_more))
         postNum = request.form.get('favbtn')
         newFav = Favorites(user_id=current_user.user_id, post_id=postNum)
         exists = Favorites.query.filter_by(user_id=current_user.user_id, post_id=postNum).first()
@@ -52,3 +55,8 @@ def feed():
         except:
             return posts
     return render_template('feed.html', user=current_user, all_posts=shuffle_posts(all_posts))
+
+@views.route('/posts')
+def single_post():
+    post = request.args.get('id')
+    return render_template('single_post.html', user=current_user, id=post)

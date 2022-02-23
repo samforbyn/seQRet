@@ -13,13 +13,16 @@
     {% for post in all_posts %}
     <div align="center">
         <div class="card shadow p-3 mb-5 bg-white rounded postBG">
-            <div class="card-body" align="left">
+            <div class="card-body text-center" align="left">
                 <h4 class="card-title">{{ post.post_title }}</h4>
                 <h5 class="card-subtitle mb-2 text-muted">{{ post.post_date }}</h5>
                 <p class="card-text">{{ post.post_content }}</p>
-                <form method="post">
-                    <button name="favbtn" value = {{ post.post_id }} class="btn btn-white btn-xs"><i class="fa-solid fa-heart"></i></button>
-                </form>
+                <div class="d-flex justify-content-around">
+                    <form method="post">
+                        <button name="favbtn" value = {{ post.post_id }} class="btn btn-white btn-xs"><i class="fa-solid fa-heart"></i></button>
+                        <button name="seeMore" class="btn btn-white btn-xs" value={{ post.post_id }}>See More <i class="fa-solid fa-angles-right"></i></button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
