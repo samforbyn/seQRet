@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 
+{% block style %}
+    <link rel="stylesheet" href="static/profile_css.css">
+{% endblock %}
+
 {% block title %}
 Profile
 {% endblock %}
 
 
 {% block body%}
-{{user}}
 <div class="d-flex flex-row justify-content-around">
     <div>
         <h2 class="mb-4">My Posts</h2>
