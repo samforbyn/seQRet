@@ -24,6 +24,17 @@ Profile
     </div>
     <div>
         <h2 class="mb-4">My Favorites</h2>
+        {% for favorite in favorites %}
+        <div align="left">
+            <div class="card shadow p-3 mb-5 bg-white rounded postBG">
+                <div class="card-body" align="left">
+                    <h4 class="card-title">{{ favorite.post_title }}</h4>
+                    <h5 class="card-subtitle mb-2 text-muted">{{ favorite.post_date }}</h5>
+                    <p class="card-text">{{ favorite.post_content }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
 {%endblock%}

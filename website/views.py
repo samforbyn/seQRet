@@ -1,4 +1,3 @@
-from sqlite3 import IntegrityError
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_required, current_user
 import random
@@ -7,6 +6,10 @@ from . import db
 
 
 views = Blueprint('views', __name__)
+
+@views.route('/')
+def root_redirect():
+    return redirect(url_for('auth.login'))
 
 @views.route('/home', methods=['GET', 'POST'])
 @login_required
@@ -39,13 +42,13 @@ def feed():
         else:
             db.session.add(newFav)
             db.session.commit()
+            flash('Added to favorites!', category='success')
     all_posts = db.session.query(Posts).all()
-    def shuffle_filter(posts):
+    def shuffle_posts(posts):
         try:
             result = list(posts)
             random.shuffle(result)
             return result
         except:
             return posts
-    shuffled = shuffle_filter(all_posts)
-    return render_template('feed.html', user=current_user, all_posts=shuffled)
+    return render_template('feed.html', user=current_user, all_posts=shuffle_posts(all_posts))

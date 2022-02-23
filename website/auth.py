@@ -1,10 +1,9 @@
+import random
 from sqlite3 import IntegrityError
-from threading import currentThread
-from unicodedata import category
 from flask import Blueprint, redirect, render_template, request, flash, redirect, url_for
 from flask_login import login_user, login_required, logout_user, current_user
 from sqlalchemy.exc import IntegrityError
-from .models import Users, Posts
+from .models import Favorites, Users, Posts
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db 
 
@@ -23,7 +22,15 @@ def login():
             if check_password_hash(user.password, password):
                 flash("Logged in successfully!", category='success')
                 login_user(user, remember=True)
-                return redirect(url_for('views.feed'))
+                all_posts = db.session.query(Posts).all()
+                def shuffle_posts(posts):
+                    try:
+                        result = list(posts)
+                        random.shuffle(result)
+                        return result
+                    except:
+                        return posts
+                return redirect(url_for('views.feed', all_posts=shuffle_posts(all_posts)))
             else:
                 flash('Incorrect password, try again.', category='error')
         else:
@@ -73,7 +80,7 @@ def sign_up():
                 db.session.rollback()
                 flash('Username already taken, try again.', category='error')
                 return redirect(url_for('auth.sign_up'))
-            flash('Account created! You can log in now.', category='success')
+            flash('Account created!', category='success')
             return redirect(url_for('views.home'))
 
     return render_template('sign_up.html', user=current_user)
@@ -81,5 +88,11 @@ def sign_up():
 @auth.route('/profile', methods=['GET', 'POST'])
 def profile():
     user = Users.query.filter_by(username=current_user.username).first()
-    users_posts = Posts.query.filter_by(post_author=user.user_id)
-    return render_template('profile.html', user= current_user, posts=users_posts)
+    users_posts = Posts.query.filter_by(post_author=user.user_id).all()
+    users_favorites = Favorites.query.filter_by(user_id=user.user_id).all()
+    favorite_ids = [x.post_id for x in users_favorites]
+    print(favorite_ids)
+    fav_posts = Posts.query.filter(Posts.post_id.in_(favorite_ids)).all()
+    print(fav_posts)
+    
+    return render_template('profile.html', user= current_user, posts=users_posts, favorites=fav_posts)

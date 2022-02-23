@@ -30,7 +30,7 @@ class Posts(db.Model):
     post_title = db.Column(db.String(175))
     post_content = db.Column(db.String(10000))
     post_image = db.Column(db.LargeBinary)
-    post_date = db.Column(db.DateTime(timezone=True), default = func.now())
+    post_date = db.Column(db.DateTime(timezone=True), server_default = func.now())
     post_author = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 
     def __init__(self, post_title, post_content, post_image, post_author):
