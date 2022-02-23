@@ -1,6 +1,6 @@
 #  ***SeQRet*** #
 
- - ## **Main Idea:** The mission behind this web application is to provide a space online to upload text and images, leveraging QR Codes to share content from the platform ##
+ - ## **Main Idea:** The mission behind this web application is to provide a space online to upload text and images, leveraging QR Codes to share content ##
 
 
 ## **MVP:** ##
