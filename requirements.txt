@@ -1,3 +1,5 @@
+boto3==1.21.5
+botocore==1.24.5
 click==8.0.3
 colorama==0.4.4
 Flask==2.0.2
@@ -7,12 +9,17 @@ Flask-SQLAlchemy==2.5.1
 greenlet==1.1.2
 itsdangerous==2.0.1
 Jinja2==3.0.3
+jmespath==0.10.0
 MarkupSafe==2.0.1
 Pillow==9.0.1
 postgres==4.0
 psycopg2-binary==2.9.3
 psycopg2-pool==1.1
+python-dateutil==2.8.2
 python-dotenv==0.19.2
 qrcode==7.3.1
+s3transfer==0.5.1
+six==1.16.0
 SQLAlchemy==1.4.31
+urllib3==1.26.8
 Werkzeug==2.0.3

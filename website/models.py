@@ -29,7 +29,7 @@ class Posts(db.Model):
     post_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     post_title = db.Column(db.String(175))
     post_content = db.Column(db.String(10000))
-    post_image = db.Column(db.LargeBinary)
+    post_image = db.Column(db.String(512))
     post_date = db.Column(db.DateTime(timezone=True), server_default = func.now())
     post_author = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 

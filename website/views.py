@@ -1,12 +1,14 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_required, current_user
 from flask_qrcode import QRcode
+from werkzeug.utils import secure_filename
 import random
 from .models import Posts, Favorites
-from . import db
+from . import db, s3, BUCKET_NAME
 
 
 views = Blueprint('views', __name__)
+
 
 @views.route('/')
 def root_redirect():
@@ -18,13 +20,23 @@ def home():
     if request.method == 'POST':
         text = request.form.get('post_content')
         title = request.form.get('post_title')
+        post_img = request.files['p_image']
+        filename = secure_filename(post_img.filename)
+
+        if post_img:
+            s3.upload_fileobj(
+                Bucket = BUCKET_NAME,
+                Fileobj = post_img,
+                Key = filename
+            )
+            print('image uploaded!')
 
         if len(title) <1:
             flash('Please enter a title', category='error')
         if len(text) < 1:
             flash('No text entered, try again.', category='error')
         else:
-            user_text = Posts(post_title=title, post_content=text, post_image=None, post_author=current_user.user_id)
+            user_text = Posts(post_title=title, post_content=text, post_image=filename, post_author=current_user.user_id)
             db.session.add(user_text)
             db.session.commit()
             print(user_text, current_user.user_id)
