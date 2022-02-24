@@ -81,7 +81,9 @@ def sign_up():
                 flash('Username already taken, try again.', category='error')
                 return redirect(url_for('auth.sign_up'))
             flash('Account created!', category='success')
-            return redirect(url_for('views.home'))
+            this_user = Users.query.filter_by(email=email).first()
+            login_user(this_user, remember=True)
+            return redirect(url_for('views.home', user=current_user))
 
     return render_template('sign_up.html', user=current_user)
 

@@ -70,7 +70,6 @@ def feed():
     return render_template('feed.html', user=current_user, all_posts=shuffle_posts(all_posts))
 
 @views.route('/posts', methods=['GET', 'POST'])
-@login_required
 def single_post():
     if request.method == 'POST':
         postNum = request.form.get('favbtn')
@@ -84,4 +83,4 @@ def single_post():
             flash('Added to favorites!', category='success')
     postNumber = request.args.get('id')
     this_post = Posts.query.filter_by(post_id=postNumber).first()
-    return render_template('single_post.html', user=current_user, post=this_post)
+    return render_template('single_post.html', user=current_user, post=this_post, bktname=BUCKET_NAME)

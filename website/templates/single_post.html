@@ -1,14 +1,17 @@
 {% extends 'base.html' %}
 
 {% block style%}
-{%endblock%}
 <link rel="stylesheet" href="static/post_css.css">
+{%endblock%}
+
 {% block title %}
-    Post
+    {{ post.post_title }}
 {%endblock%}
 
 {% block body %}
-<div align="center">
+
+
+<div align="center" class="mt-4">
     <div class="card shadow p-3 mb-5 bg-white rounded postBG">
         <div class="card-body text-center" align="left">
             <h4 class="card-title">{{ post.post_title }}</h4>
@@ -16,14 +19,16 @@
             <p class="card-text">{{ post.post_content }}</p>
             <div class="d-flex justify-content-around">
                 <form method="post">
-                    <button name="favbtn" value = {{ post.post_id }} class="btn btn-white btn-xs"><i class="fa-solid fa-heart"></i></button>
+                    <button name="favbtn" value = {{ post.post_id }} class="btn btn-white btn-xs">Favorite <i class="fa-solid fa-heart"></i></button>
                 </form>
                     <button name="showQR" class="btn btn-white btn-xs" data-toggle="collapse" data-target="#thisqrcode" aria-expanded="false" aria-controls="thisqrcode" value={{ post.post_id }}>Show QR <i class="fa-solid fa-angles-down"></i></button>
+                    <button name="showIMG" class="btn btn-white btn-xs" data-toggle="collapse" data-target="#thisimage" aria-expanded="false" aria-controls="thisimage" value={{ post.post_id }}>Show Image <i class="fa-solid fa-angles-down"></i></button>
                 </div>
-                <div class="collapse" id="thisqrcode">
-                    <div class="pushfix">
-                        <img src="{{ qrcode('testing', box_size=6, error_correction='H', back_color='#383F51', fill_color='#ccc', icon_img='../static/logo_white_bg.png') }}" alt="qrcode">
-                    </div>
+                <div class="collapse mt-5" id="thisimage">
+                    <img class="img-fluid" src="https://{{ bktname }}.s3.amazonaws.com/{{ post.post_image }}" alt="{{ post.post_image }}">
+                </div>
+                <div class="collapse mt-5" id="thisqrcode">
+                    <img src="{{ qrcode( request.url, box_size=5, error_correction='H', back_color='#383F51', fill_color='#ccc', icon_img='../static/logo3.png') }}" alt="qrcode">
             </div>
     </div>
 </div>

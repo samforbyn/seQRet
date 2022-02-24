@@ -19,7 +19,7 @@
                 <p class="card-text">{{ post.post_content }}</p>
                 <div class="d-flex justify-content-around">
                     <form method="post">
-                        <button name="favbtn" value = {{ post.post_id }} class="btn btn-white btn-xs"><i class="fa-solid fa-heart"></i></button>
+                        <button name="favbtn" value = {{ post.post_id }} class="btn btn-white btn-xs">Favorite <i class="fa-solid fa-heart"></i></button>
                         <button name="seeMore" class="btn btn-white btn-xs" value={{ post.post_id }}>See More <i class="fa-solid fa-angles-right"></i></button>
                     </form>
                 </div>
