@@ -1,10 +1,12 @@
 from dotenv import find_dotenv, load_dotenv
 from flask import Flask
 import os
+import re
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_qrcode import QRcode
 import boto3
+import sqlalchemy
 
 
 
@@ -20,6 +22,9 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 S3_KEY = os.getenv('ACCESS_KEY_ID')
 S3_SECRET_ACCESS_KEY = os.getenv('ACCESS_SECRET_KEY')
 SQLALCHEMY_DB_URI = os.getenv('DATABASE_URL')
+
+if SQLALCHEMY_DB_URI and SQLALCHEMY_DB_URI.startswith("postgres://"):
+    SQLAlchemy = SQLALCHEMY_DB_URI.replace("postgres://", "postgresql://", 1)
 
 s3 = boto3.client('s3',
                     aws_access_key_id=S3_KEY,
