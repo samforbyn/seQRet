@@ -5,7 +5,7 @@ body{
     background-image: linear-gradient(to right,#d9eff8, #b9ebff);
 }
 
-#welcome{
+.nav-item{
     color: #e2e2e2;
 }
 
@@ -13,8 +13,18 @@ button:hover,
     a:hover{
     transform: scale(1.05);
 }
-
-img{
-    height: 5rem;
-    width: 5rem;
+a:hover{
+    color: #e2e2e2;
 }
+
+#navLogo{
+    height: 3.7rem;
+    width: 3.4rem;    
+}
+
+.navbar-brand {
+    transform: translateX(-50%);
+    left: 50%;
+    top: 0;
+    position: absolute;
+  }

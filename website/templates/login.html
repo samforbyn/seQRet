@@ -8,7 +8,7 @@
 
 {% block body%}
 <div class="d-flex flex-column align-items-center">
-    <img class="img-fluid mb-4"src="static/logo.png" alt="seqret logo">
+    <img class="img-fluid mb-3 mt-2"src="static/logo.png" alt="seqret logo">
     <form method="POST">
         <h3 align="center">Login</h3>
         <div class="form-group">
@@ -19,9 +19,7 @@
             <label for="password">Password:</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
         </div>
-        <br>
         <h5 align="center">Don't have an account? Sign up <a href={{ url_for('auth.sign_up') }}>here</a></h5>
-        <br>
         <div align="center">
             <button class="btn btn-dark" type="submit">Submit</button>
         </div>
