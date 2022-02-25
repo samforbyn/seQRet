@@ -19,16 +19,16 @@ DB_NAME = 'database.db'
 load_dotenv(find_dotenv())
 
 SECRET_KEY = os.getenv("SECRET_KEY")
-S3_KEY = os.getenv('ACCESS_KEY_ID')
-S3_SECRET_ACCESS_KEY = os.getenv('ACCESS_SECRET_KEY')
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 SQLALCHEMY_DB_URI = os.getenv('DATABASE_URL')
 
 if SQLALCHEMY_DB_URI and SQLALCHEMY_DB_URI.startswith("postgres://"):
     SQLALCHEMY_DB_URI = SQLALCHEMY_DB_URI.replace("postgres://", "postgresql://", 1)
 
 s3 = boto3.client('s3',
-                    aws_access_key_id=S3_KEY,
-                    aws_secret_access_key=S3_SECRET_ACCESS_KEY
+                    aws_access_key_id=AWS_ACCESS_KEY_ID,
+                    aws_secret_access_key=AWS_SECRET_ACCESS_KEY
                 )
 
 BUCKET_NAME = "skfseqretimages"
