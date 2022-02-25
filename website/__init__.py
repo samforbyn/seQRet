@@ -19,6 +19,7 @@ load_dotenv(find_dotenv())
 SECRET_KEY = os.getenv("SECRET_KEY")
 S3_KEY = os.getenv('ACCESS_KEY_ID')
 S3_SECRET_ACCESS_KEY = os.getenv('ACCESS_SECRET_KEY')
+SQLALCHEMY_DB_URI = os.getenv('DATABASE_URL')
 
 s3 = boto3.client('s3',
                     aws_access_key_id=S3_KEY,
@@ -32,7 +33,7 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = SECRET_KEY
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:postgres@localhost:5432/seqret'
+    app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DB_URI
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
 
