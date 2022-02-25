@@ -24,7 +24,7 @@ S3_SECRET_ACCESS_KEY = os.getenv('ACCESS_SECRET_KEY')
 SQLALCHEMY_DB_URI = os.getenv('DATABASE_URL')
 
 if SQLALCHEMY_DB_URI and SQLALCHEMY_DB_URI.startswith("postgres://"):
-    SQLAlchemy = SQLALCHEMY_DB_URI.replace("postgres://", "postgresql://", 1)
+    SQLALCHEMY_DB_URI = SQLALCHEMY_DB_URI.replace("postgres://", "postgresql://", 1)
 
 s3 = boto3.client('s3',
                     aws_access_key_id=S3_KEY,
