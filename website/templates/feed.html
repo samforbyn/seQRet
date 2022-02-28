@@ -15,7 +15,7 @@
         <div class="card shadow p-3 mb-5 bg-white rounded postBG">
             <div class="card-body text-center" align="left">
                 <h4 class="card-title">{{ post.post_title }}</h4>
-                <h5 class="card-subtitle mb-2 text-muted">{{ post.post_date }}</h5>
+                <h5 class="card-subtitle mb-2 text-muted">{{ post.post_date.strftime('%m-%d-%Y') }}</h5>
                 <p class="card-text">{{ post.post_content }}</p>
                 <form method="post">
                     <div class="d-flex justify-content-around">
