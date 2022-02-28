@@ -1,0 +1,10 @@
+img{
+    height: 20em;
+    width: 20em;
+}
+
+@media screen and (max-width: 820px){
+    img{
+        display: none;
+    }
+}
