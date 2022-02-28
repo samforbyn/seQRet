@@ -25,7 +25,11 @@
                     <button name="showIMG" class="btn btn-white btn-xs" data-toggle="collapse" data-target="#thisimage" aria-expanded="false" aria-controls="thisimage" value={{ post.post_id }}>Show Image <i class="fa-solid fa-angles-down"></i></button>
                 </div>
                 <div class="collapse mt-5" id="thisimage">
+                    {% if post.post_image %}
                     <img class="img-fluid" src="https://{{ bktname }}.s3.amazonaws.com/{{ post.post_image }}" alt="{{ post.post_image }}">
+                    {% else %}
+                    <h5>No image attached to this post :(</h5>
+                    {% endif %}
                 </div>
                 <div class="collapse mt-5" id="thisqrcode">
                     <img class="img-fluid" src="{{ qrcode( request.url, box_size=5, error_correction='H', back_color='#383F51', fill_color='#ccc', icon_img='../static/logo3.png') }}" alt="qrcode">
