@@ -1,11 +1,16 @@
 #headline{
     font-family: Bahnschrift Light;
-    font-weight: 600;
+    font-weight: 500;
     margin-top: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 .imgreel{
     color: #007BFF;
     size: 90rem;
+}
+#notice{
+    margin-bottom: 1rem;
+    font-size: medium;
+    color: rgb(255, 30, 0);
 }
