@@ -4,3 +4,12 @@
     margin-bottom: 1rem;
     width: 20;
 }
+
+.profileTab{
+    font-size: 2rem;
+    color: rgb(100, 98, 98);
+}
+
+.profileTab:hover{
+    color: #568EA3;
+}

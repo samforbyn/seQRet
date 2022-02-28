@@ -10,7 +10,41 @@ Profile
 
 
 {% block body%}
-<div class="d-flex flex-row justify-content-around">
+<ul class="nav nav-tabs d-flex flex-row justify-content-around mt-3">
+    <li class="active"><a data-toggle="tab" href="#myPosts" class="profileTab">My Posts</a></li>
+    <li><a data-toggle="tab" href="#myFavs" class="profileTab">My Favorites</a></li>
+</ul>
+<div class="tab-content">
+    <div id="myPosts" class="tab-pane fade show active">
+        {% for post in posts %}
+        <div align="left">
+            <div class="card shadow p-3 mb-5 bg-white rounded postBG">
+                <div class="card-body" align="left">
+                    <h4 class="card-title">{{ post.post_title }}</h4>
+                    <h5 class="card-subtitle mb-2 text-muted">{{ post.post_date }}</h5>
+                    <p class="card-text">{{ post.post_content }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div id="myFavs" class="tab-pane fade">
+        {% for favorite in favorites %}
+        <div align="left">
+            <div class="card shadow p-3 mb-5 bg-white rounded postBG">
+                <div class="card-body" align="left">
+                    <h4 class="card-title">{{ favorite.post_title }}</h4>
+                    <h5 class="card-subtitle mb-2 text-muted">{{ favorite.post_date }}</h5>
+                    <p class="card-text">{{ favorite.post_content }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<!-- <div class="d-flex flex-row justify-content-around">
     <div>
         <h2 class="mb-4">My Posts</h2>
         {% for post in posts %}
@@ -39,5 +73,5 @@ Profile
         </div>
         {% endfor %}
     </div>
-</div>
+</div> -->
 {%endblock%}
