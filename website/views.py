@@ -73,8 +73,9 @@ def feed():
 @views.route('/posts', methods=['GET', 'POST'])
 def single_post():
     if request.method == 'POST':
-        if not current_user:
+        if current_user.is_anonymous:
             flash('Please make an account or log in to add as favorite')
+            return
         postNum = request.form.get('favbtn')
         newFav = Favorites(user_id=current_user.user_id, post_id=postNum)
         flash('Please make an account or log in to add a favorite!', category='error')
