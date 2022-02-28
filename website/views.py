@@ -72,15 +72,18 @@ def feed():
 @views.route('/posts', methods=['GET', 'POST'])
 def single_post():
     if request.method == 'POST':
-        postNum = request.form.get('favbtn')
-        newFav = Favorites(user_id=current_user.user_id, post_id=postNum)
-        exists = Favorites.query.filter_by(user_id=current_user.user_id, post_id=postNum).first()
-        if exists:
-            flash('This post is already a favorite!', category='error')
+        if current_user:
+            postNum = request.form.get('favbtn')
+            newFav = Favorites(user_id=current_user.user_id, post_id=postNum)
+            exists = Favorites.query.filter_by(user_id=current_user.user_id, post_id=postNum).first()
+            if exists:
+                flash('This post is already a favorite!', category='error')
+            else:
+                db.session.add(newFav)
+                db.session.commit()
+                flash('Added to favorites!', category='success')
         else:
-            db.session.add(newFav)
-            db.session.commit()
-            flash('Added to favorites!', category='success')
+            flash('Please make an account or log in to add a favorite!', category='error')
     postNumber = request.args.get('id')
     this_post = Posts.query.filter_by(post_id=postNumber).first()
     return render_template('single_post.html', user=current_user, post=this_post, bktname=BUCKET_NAME)
