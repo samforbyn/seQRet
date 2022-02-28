@@ -76,6 +76,8 @@ def single_post():
         try:
             postNum = request.form.get('favbtn')
             newFav = Favorites(user_id=current_user.user_id, post_id=postNum)
+        except INTERNAL_SERVER_ERROR:
+            flash('Please make an account or log in to add a favorite!', category='error')
             exists = Favorites.query.filter_by(user_id=current_user.user_id, post_id=postNum).first()
             if exists:
                 flash('This post is already a favorite!', category='error')
@@ -83,8 +85,6 @@ def single_post():
                 db.session.add(newFav)
                 db.session.commit()
                 flash('Added to favorites!', category='success')
-        except INTERNAL_SERVER_ERROR:
-            flash('Please make an account or log in to add a favorite!', category='error')
     postNumber = request.args.get('id')
     this_post = Posts.query.filter_by(post_id=postNumber).first()
     return render_template('single_post.html', user=current_user, post=this_post, bktname=BUCKET_NAME)
