@@ -16,3 +16,15 @@ body{
 .pushfix{
     margin-top: 3rem;
 }
+@media screen and (max-width: 550px){
+    #postcard{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+    button{
+        margin-bottom: 1rem;
+    }
+
+}

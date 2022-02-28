@@ -17,7 +17,7 @@
             <h4 class="card-title">{{ post.post_title }}</h4>
             <h5 class="card-subtitle mb-2 text-muted">{{ post.post_date }}</h5>
             <p class="card-text">{{ post.post_content }}</p>
-            <div class="d-flex justify-content-around">
+            <div id = "postcard" class="d-flex justify-content-around">
                 <form method="post">
                     <button name="favbtn" value = {{ post.post_id }} class="btn btn-white btn-xs">Favorite <i class="fa-solid fa-heart"></i></button>
                 </form>

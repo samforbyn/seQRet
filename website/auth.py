@@ -89,6 +89,10 @@ def sign_up():
 
 @auth.route('/profile', methods=['GET', 'POST'])
 def profile():
+    if request.method == 'POST':
+        see_more = request.form.get('seeMore')
+        if see_more:
+            return redirect(url_for('views.single_post', user=current_user, id = see_more))
     user = Users.query.filter_by(username=current_user.username).first()
     users_posts = Posts.query.filter_by(post_author=user.user_id).all()
     users_favorites = Favorites.query.filter_by(user_id=user.user_id).all()

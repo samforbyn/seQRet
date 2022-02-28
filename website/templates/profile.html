@@ -23,6 +23,11 @@ Profile
                     <h4 class="card-title">{{ post.post_title }}</h4>
                     <h5 class="card-subtitle mb-2 text-muted">{{ post.post_date }}</h5>
                     <p class="card-text">{{ post.post_content }}</p>
+                    <form method="post">
+                        <div class="d-flex justify-content-around">
+                            <button name="seeMore" class="btn btn-white btn-xs" value={{ post.post_id }}>See More <i class="fa-solid fa-angles-right"></i></button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -36,6 +41,11 @@ Profile
                     <h4 class="card-title">{{ favorite.post_title }}</h4>
                     <h5 class="card-subtitle mb-2 text-muted">{{ favorite.post_date }}</h5>
                     <p class="card-text">{{ favorite.post_content }}</p>
+                    <form method="post">
+                        <div class="d-flex justify-content-around">
+                            <button name="seeMore" class="btn btn-white btn-xs" value={{ favorite.post_id }}>See More <i class="fa-solid fa-angles-right"></i></button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
