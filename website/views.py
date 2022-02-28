@@ -1,3 +1,4 @@
+from http.client import INTERNAL_SERVER_ERROR
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_required, current_user
 from flask_qrcode import QRcode
@@ -72,7 +73,7 @@ def feed():
 @views.route('/posts', methods=['GET', 'POST'])
 def single_post():
     if request.method == 'POST':
-        if current_user:
+        try:
             postNum = request.form.get('favbtn')
             newFav = Favorites(user_id=current_user.user_id, post_id=postNum)
             exists = Favorites.query.filter_by(user_id=current_user.user_id, post_id=postNum).first()
@@ -82,7 +83,7 @@ def single_post():
                 db.session.add(newFav)
                 db.session.commit()
                 flash('Added to favorites!', category='success')
-        else:
+        except INTERNAL_SERVER_ERROR:
             flash('Please make an account or log in to add a favorite!', category='error')
     postNumber = request.args.get('id')
     this_post = Posts.query.filter_by(post_id=postNumber).first()
