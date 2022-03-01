@@ -1,7 +1,5 @@
-from http.client import INTERNAL_SERVER_ERROR
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_required, current_user
-from flask_qrcode import QRcode
 from werkzeug.utils import secure_filename
 import random
 from .models import Posts, Favorites
