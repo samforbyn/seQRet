@@ -73,13 +73,12 @@ def feed():
 def single_post():
     if request.method == 'POST':
         if current_user.is_anonymous:
-            flash('Please make an account or log in to add as favorite')
+            flash('Please make an account or log in to add as favorite', category='error')
             postNumber = request.args.get('id')
             this_post = Posts.query.filter_by(post_id=postNumber).first()
             return render_template('single_post.html', user=current_user, post=this_post, bktname=BUCKET_NAME)
         postNum = request.form.get('favbtn')
         newFav = Favorites(user_id=current_user.user_id, post_id=postNum)
-        flash('Please make an account or log in to add a favorite!', category='error')
         exists = Favorites.query.filter_by(user_id=current_user.user_id, post_id=postNum).first()
         if exists:
             flash('This post is already a favorite!', category='error')
