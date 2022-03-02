@@ -19,6 +19,7 @@ def home():
     if request.method == 'POST':
         text = request.form.get('post_content')
         title = request.form.get('post_title')
+
         post_img = request.files['p_image']
         filename = secure_filename(post_img.filename)
 
@@ -28,7 +29,6 @@ def home():
                 Fileobj = post_img,
                 Key = filename
             )
-            print('image uploaded!')
 
         if len(title) <1:
             flash('Please enter a title', category='error')
@@ -38,7 +38,6 @@ def home():
             user_text = Posts(post_title=title, post_content=text, post_image=filename, post_author=current_user.user_id)
             db.session.add(user_text)
             db.session.commit()
-            print(user_text, current_user.user_id)
             flash("Thanks for sharing!")
     return render_template('home.html', user=current_user)
 
@@ -58,6 +57,7 @@ def feed():
             db.session.add(newFav)
             db.session.commit()
             flash('Added to favorites!', category='success')
+
     all_posts = db.session.query(Posts).all()
     def shuffle_posts(posts):
         try:
@@ -66,6 +66,7 @@ def feed():
             return result
         except:
             return posts
+
     return render_template('feed.html', user=current_user, all_posts=shuffle_posts(all_posts))
 
 @views.route('/posts', methods=['GET', 'POST'])

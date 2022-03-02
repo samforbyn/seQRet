@@ -22,15 +22,7 @@ def login():
             if check_password_hash(user.password, password):
                 flash("Logged in successfully!", category='success')
                 login_user(user, remember=True)
-                all_posts = db.session.query(Posts).all()
-                def shuffle_posts(posts):
-                    try:
-                        result = list(posts)
-                        random.shuffle(result)
-                        return result
-                    except:
-                        return posts
-                return redirect(url_for('views.feed', all_posts=shuffle_posts(all_posts)))
+                return redirect(url_for('views.home', user=current_user))
             else:
                 flash('Incorrect password, try again.', category='error')
         else:
@@ -97,8 +89,6 @@ def profile():
     users_posts = Posts.query.filter_by(post_author=user.user_id).all()
     users_favorites = Favorites.query.filter_by(user_id=user.user_id).all()
     favorite_ids = [x.post_id for x in users_favorites]
-    print(favorite_ids)
     fav_posts = Posts.query.filter(Posts.post_id.in_(favorite_ids)).all()
-    print(fav_posts)
-    
+
     return render_template('profile.html', user= current_user, posts=users_posts, favorites=fav_posts)
