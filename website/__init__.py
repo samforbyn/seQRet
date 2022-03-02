@@ -7,7 +7,7 @@ from flask_login import LoginManager
 from flask_qrcode import QRcode
 import boto3
 import sqlalchemy
-
+from flask_share import Share
 
 
 db = SQLAlchemy()
@@ -48,6 +48,7 @@ def create_app():
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
+    share = Share(app)
     QRcode(app)
 
     from .models import Users, Posts, Favorites
