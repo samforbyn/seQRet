@@ -1,3 +1,4 @@
+from faulthandler import cancel_dump_traceback_later
 import random
 from sqlite3 import IntegrityError
 from flask import Blueprint, redirect, render_template, request, flash, redirect, url_for
@@ -91,6 +92,22 @@ def profile():
         see_more = request.form.get('seeMore')
         if see_more:
             return redirect(url_for('views.single_post', user=current_user, id = see_more))
+        user = Users.query.filter_by(username=current_user.username).first()
+        update = request.form.get('cpassword')
+        newpass = request.form.get('newPassword')
+        confirmpass = request.form.get('confirmPassword')
+        if check_password_hash(user.password, update):
+            if len(newpass) < 7:
+                flash('Your password needs to contain at least 7 characters, try again.', category='error')
+                return redirect(url_for('auth.profile', user=current_user))
+            if newpass != confirmpass:
+                flash('The two new password fields must match. Please try again.')
+                return redirect(url_for('auth.profile', user=current_user))
+            user.password = generate_password_hash(password=confirmpass, method="sha256")
+            db.session.commit()
+            flash('Password changed successfully!', category='success')
+        else:
+            flash('The current password you entered is incorrect. Please try again.')
     user = Users.query.filter_by(username=current_user.username).first()
     users_posts = Posts.query.filter_by(post_author=user.user_id).all()
     users_favorites = Favorites.query.filter_by(user_id=user.user_id).all()
