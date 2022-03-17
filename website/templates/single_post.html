@@ -2,7 +2,7 @@
 
 
 {% block style%}
-<link rel="stylesheet" href="static/post_css.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='post_css.css') }}">
 {%endblock%}
 
 {% block title %}
