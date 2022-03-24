@@ -11,6 +11,7 @@ from . import db
 auth = Blueprint('auth', __name__)
 
 
+@auth.route('/')
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:

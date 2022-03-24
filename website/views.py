@@ -9,10 +9,6 @@ from . import db, s3, BUCKET_NAME
 views = Blueprint('views', __name__)
 
 
-@views.route('/')
-def root_redirect():
-    return redirect(url_for('auth.login'))
-
 @views.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
