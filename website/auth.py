@@ -1,12 +1,11 @@
-from faulthandler import cancel_dump_traceback_later
-import random
 from sqlite3 import IntegrityError
 from flask import Blueprint, redirect, render_template, request, flash, redirect, url_for
 from flask_login import login_user, login_required, logout_user, current_user
 from sqlalchemy.exc import IntegrityError
 from .models import Favorites, Users, Posts
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import db 
+from . import db, s3, BUCKET_NAME
+
 
 auth = Blueprint('auth', __name__)
 
@@ -89,30 +88,51 @@ def sign_up():
 
 @auth.route('/profile', methods=['GET', 'POST'])
 def profile():
-    if request.method == 'POST':
-        see_more = request.form.get('seeMore')
-        if see_more:
-            return redirect(url_for('views.single_post', user=current_user, id = see_more))
-        user = Users.query.filter_by(username=current_user.username).first()
-        update = request.form.get('cpassword')
-        newpass = request.form.get('newPassword')
-        confirmpass = request.form.get('confirmPassword')
-        if check_password_hash(user.password, update):
-            if len(newpass) < 7:
-                flash('Your password needs to contain at least 7 characters, try again.', category='error')
-                return redirect(url_for('auth.profile', user=current_user))
-            if newpass != confirmpass:
-                flash('The two new password fields must match. Please try again.')
-                return redirect(url_for('auth.profile', user=current_user))
-            user.password = generate_password_hash(password=confirmpass, method="sha256")
-            db.session.commit()
-            flash('Password changed successfully!', category='success')
-        else:
-            flash('The current password you entered is incorrect. Please try again.')
+    
     user = Users.query.filter_by(username=current_user.username).first()
     users_posts = Posts.query.filter_by(post_author=user.user_id).all()
     users_favorites = Favorites.query.filter_by(user_id=user.user_id).all()
     favorite_ids = [x.post_id for x in users_favorites]
     fav_posts = Posts.query.filter(Posts.post_id.in_(favorite_ids)).all()
 
-    return render_template('profile.html', user= current_user, posts=users_posts, favorites=fav_posts)
+    if request.method == 'POST':
+
+        update = request.form.get('cpassword')
+        newpass = request.form.get('newPassword')
+        confirmpass = request.form.get('confirmPassword')
+
+        if update:
+            if check_password_hash(user.password, update):
+                if len(newpass) < 7:
+                    flash('Your password needs to contain at least 7 characters, try again.', category='error')
+                    return redirect(url_for('auth.profile', user=current_user))
+                if newpass != confirmpass:
+                    flash('The two new password fields must match. Please try again.')
+                    return redirect(url_for('auth.profile', user=current_user))
+                user.password = generate_password_hash(password=confirmpass, method="sha256")
+                db.session.commit()
+                flash('Password changed successfully!', category='success')
+            else:
+                flash('The current password you entered is incorrect. Please try again.')
+
+        see_more = request.form.get('seeMore')
+        if see_more:
+            return redirect(url_for('views.single_post', user=current_user, id = see_more))
+
+        remove_post = request.form.get('removePost')
+        if remove_post:
+            selected = Posts.query.filter_by(post_id=remove_post).first()
+            db.session.delete(selected)
+            db.session.commit()
+            
+            users_posts = Posts.query.filter_by(post_author=user.user_id).all()
+            users_favorites = Favorites.query.filter_by(user_id=user.user_id).all()
+            favorite_ids = [x.post_id for x in users_favorites]
+            fav_posts = Posts.query.filter(Posts.post_id.in_(favorite_ids)).all()
+
+            s3.Object(BUCKET_NAME, selected.post_img).delete()
+
+            flash('Post deemed not worthy of existing. It has been removed.')
+            return render_template('profile.html', user=current_user, posts=users_posts, favorites=fav_posts)
+
+    return render_template('profile.html', user=current_user, posts=users_posts, favorites=fav_posts)
