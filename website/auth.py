@@ -124,13 +124,13 @@ def profile():
             selected = Posts.query.filter_by(post_id=remove_post).first()
             db.session.delete(selected)
             db.session.commit()
-            
+
             users_posts = Posts.query.filter_by(post_author=user.user_id).all()
             users_favorites = Favorites.query.filter_by(user_id=user.user_id).all()
             favorite_ids = [x.post_id for x in users_favorites]
             fav_posts = Posts.query.filter(Posts.post_id.in_(favorite_ids)).all()
 
-            s3.Object(BUCKET_NAME, selected.post_img).delete()
+            s3.delete_object(Bucket=BUCKET_NAME,Key=selected.post_image)
 
             flash('Post deemed not worthy of existing. It has been removed.')
             return render_template('profile.html', user=current_user, posts=users_posts, favorites=fav_posts)
