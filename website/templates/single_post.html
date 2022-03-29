@@ -22,7 +22,9 @@
                 <form method="post">
                     <button name="favbtn" value = {{ post.post_id }} class="btn btn-white btn-xs">Favorite <i class="fa-solid fa-heart"></i></button>
                 </form>
-                    <button name="showQR" class="btn btn-white btn-xs" data-toggle="collapse" data-target="#thisqrcode" aria-expanded="false" aria-controls="thisqrcode" value={{ post.post_id }}>Show QR <i class="fa-solid fa-angles-down"></i></button>
+                    <a href="#thisqrcode">
+                        <button name="showQR" class="btn btn-white btn-xs" data-toggle="collapse" data-target="#thisqrcode" aria-expanded="false" aria-controls="thisqrcode" value={{ post.post_id }}>Show QR <i class="fa-solid fa-angles-down"></i></button>
+                    </a>
                     <button name="showIMG" class="btn btn-white btn-xs" data-toggle="collapse" data-target="#thisimage" aria-expanded="false" aria-controls="thisimage" value={{ post.post_id }}>Show Image <i class="fa-solid fa-angles-down"></i></button>
                 </div>
                 <div class="collapse mt-5" id="thisimage">
