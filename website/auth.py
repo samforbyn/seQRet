@@ -10,7 +10,7 @@ from . import db, s3, BUCKET_NAME
 auth = Blueprint('auth', __name__)
 
 
-@auth.route('/')
+@auth.route('/', methods=['GET', 'POST'])
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
